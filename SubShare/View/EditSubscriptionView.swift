@@ -8,14 +8,20 @@
 import SwiftUI
 import CoreData
 
-struct NewSubscriptionView: View {
+struct EditSubscriptionView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     
     @State var displayWarning = false
     @State private var warningString = ""
-    @ObservedObject var subscription = SubscriptionViewModel()
+    var subscriptionData : SubscriptionModel?
+    @ObservedObject var subscription : SubscriptionViewModel
+    
+    init(subscriptionData: SubscriptionModel) {
+        self.subscription = SubscriptionViewModel(subscription: subscriptionData)
+        self.subscriptionData = subscriptionData
+    }
     
     var body: some View {
         Form {
@@ -110,7 +116,7 @@ struct NewSubscriptionView: View {
         Button {
             let warningList = subscription.generateWarning()
             if warningList.isEmpty {
-                subscription.save()
+                subscription.saveEdit()
                 presentationMode.wrappedValue.dismiss()
             } else {
                 warningString = ""
@@ -121,10 +127,21 @@ struct NewSubscriptionView: View {
             }
             
         } label: {
-            Text("Submit").foregroundColor(.yellow).bold()
+            Text("Edit").foregroundColor(.yellow).bold()
         }
-
         .navigationTitle(subscription.name != "" ? "Adding \(subscription.name)" : "Add subscription")
+        .navigationBarItems(trailing: Button(action: {
+            print(subscriptionData)
+            moc.delete(subscriptionData!)
+            do {
+                try moc.save()
+                presentationMode.wrappedValue.dismiss()
+            } catch {
+                print(error)
+            }
+        }, label: {
+            Text("Delete").foregroundColor(.red).bold()
+        }))
     }
         .alert(isPresented: $displayWarning) {
             Alert(

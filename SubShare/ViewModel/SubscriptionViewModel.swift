@@ -20,16 +20,23 @@ class SubscriptionViewModel : ObservableObject {
     @Published var familyMembers : [FamilyMemberModel]
     @Published var memberNames : [String] = []
     @Published var memberPrices : [Double] = []
+    var subscriptionModel : SubscriptionModel?
     
     
-    init(name: String, everyMonthPayment: Bool, price: Double, divideCostEqually: Bool , paymentDate: Date, familyMembers: [FamilyMemberModel]) {
+    init(subscription: SubscriptionModel) {
         
-        self.name = name
-        self.everyMonthPayment = everyMonthPayment
-        self.price = price
-        self.divideCostEqually = divideCostEqually
-        self.paymentDate = paymentDate
-        self.familyMembers = familyMembers
+        self.name = subscription.name
+        self.everyMonthPayment = subscription.everyMonthPayment
+        self.price = subscription.price
+        self.divideCostEqually = subscription.divideCostEqually
+        self.paymentDate = subscription.paymentDate
+        self.familyMembers = subscription.familyMemberArray.sorted(by: { $0.order < $1.order })
+        self.subscriptionModel = subscription
+        
+        for member in familyMembers {
+            memberNames.append(member.name)
+            memberPrices.append(member.value)
+        }
     }
     
     init() {
@@ -61,7 +68,33 @@ class SubscriptionViewModel : ObservableObject {
             object.id = UUID()
             object.subscription = model
         }
-            do {
+        do {
+            try moc.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    func saveEdit() {
+        let model = subscriptionModel!
+            model.name = name
+            model.price = price
+            model.everyMonthPayment = everyMonthPayment
+            model.divideCostEqually = divideCostEqually
+            model.paymentDate = paymentDate
+        model.removeFromFamilyMember(model.familyMember)
+        for member in memberNames {
+            let id = memberNames.firstIndex(of: member)
+            let object = FamilyMemberModel(context: moc)
+            object.name = member
+            object.value = memberPrices[id!]
+            object.order = Int16(id!)
+            object.lastPaymentDate = paymentDate
+            object.id = UUID()
+            object.subscription = model
+        }
+        do {
             try moc.save()
         } catch {
             let nsError = error as NSError
