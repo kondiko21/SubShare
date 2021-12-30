@@ -27,6 +27,8 @@
 		7176E372277722EE009BAFF8 /* SubscriptionModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E370277722EE009BAFF8 /* SubscriptionModel+CoreDataProperties.swift */; };
 		7176E374277887CB009BAFF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E373277887CB009BAFF8 /* AppDelegate.swift */; };
 		7176E376277B0183009BAFF8 /* EditSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E375277B0183009BAFF8 /* EditSubscriptionView.swift */; };
+		7176E378277B1CBD009BAFF8 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E377277B1CBD009BAFF8 /* SubscriptionManager.swift */; };
+		7176E37A277BB78B009BAFF8 /* PaymentManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E379277BB78B009BAFF8 /* PaymentManagerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 		7176E370277722EE009BAFF8 /* SubscriptionModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubscriptionModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7176E373277887CB009BAFF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7176E375277B0183009BAFF8 /* EditSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubscriptionView.swift; sourceTree = "<group>"; };
+		7176E377277B1CBD009BAFF8 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		7176E379277BB78B009BAFF8 /* PaymentManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,7 @@
 			children = (
 				7176E31027748269009BAFF8 /* SubShareApp.swift */,
 				7176E373277887CB009BAFF8 /* AppDelegate.swift */,
+				7176E377277B1CBD009BAFF8 /* SubscriptionManager.swift */,
 				7176E35227767543009BAFF8 /* Model */,
 				7176E3432774833F009BAFF8 /* View */,
 				7176E34D2776738D009BAFF8 /* ViewModel */,
@@ -165,6 +170,7 @@
 				7176E34427748356009BAFF8 /* HomeView.swift */,
 				7176E34127748334009BAFF8 /* SettingsView.swift */,
 				7176E349277486DF009BAFF8 /* SubscriptionView.swift */,
+				7176E379277BB78B009BAFF8 /* PaymentManagerView.swift */,
 				7176E34B2774C496009BAFF8 /* NewSubscriptionView.swift */,
 				7176E375277B0183009BAFF8 /* EditSubscriptionView.swift */,
 			);
@@ -322,8 +328,10 @@
 			files = (
 				7176E34227748334009BAFF8 /* SettingsView.swift in Sources */,
 				7176E376277B0183009BAFF8 /* EditSubscriptionView.swift in Sources */,
+				7176E37A277BB78B009BAFF8 /* PaymentManagerView.swift in Sources */,
 				7176E371277722EE009BAFF8 /* SubscriptionModel+CoreDataClass.swift in Sources */,
 				7176E34527748356009BAFF8 /* HomeView.swift in Sources */,
+				7176E378277B1CBD009BAFF8 /* SubscriptionManager.swift in Sources */,
 				7176E36E27767871009BAFF8 /* FamilyMemberModel+CoreDataProperties.swift in Sources */,
 				7176E374277887CB009BAFF8 /* AppDelegate.swift in Sources */,
 				7176E31A2774826A009BAFF8 /* Persistence.swift in Sources */,

@@ -12,6 +12,7 @@ struct EditSubscriptionView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    var numberFormatter = NumberFormatter()
     
     @State var displayWarning = false
     @State private var warningString = ""
@@ -21,6 +22,9 @@ struct EditSubscriptionView: View {
     init(subscriptionData: SubscriptionModel) {
         self.subscription = SubscriptionViewModel(subscription: subscriptionData)
         self.subscriptionData = subscriptionData
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.minimumFractionDigits = 2
     }
     
     var body: some View {
@@ -41,6 +45,12 @@ struct EditSubscriptionView: View {
                         .multilineTextAlignment(.trailing)
                     Text("zl")
                 }.onChange(of: subscription.price) { newValue in
+                    let newPrice = subscription.price / Double(subscription.memberNames.count)
+                    if subscription.divideCostEqually {
+                        subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
+                    }
+                }
+                .onChange(of: subscription.divideCostEqually) { newValue in
                     let newPrice = subscription.price / Double(subscription.memberNames.count)
                     if subscription.divideCostEqually {
                         subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
@@ -71,11 +81,12 @@ struct EditSubscriptionView: View {
                             } else {
                                 TextField("Name", text: $subscription.memberNames[index]).disabled(true)
                             }
-                            TextField("Amount", value: $subscription.memberPrices[index], formatter: NumberFormatter())
+                            TextField("Amount", value: $subscription.memberPrices[index], formatter: numberFormatter)
                                 .disabled(subscription.divideCostEqually)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .keyboardType(.decimalPad)
-                                .frame(width:80)
+                                .frame(width:60)
+                                .multilineTextAlignment(.trailing)
                             Text("zł")
                         }
                     }
@@ -130,18 +141,17 @@ struct EditSubscriptionView: View {
             Text("Edit").foregroundColor(.yellow).bold()
         }
         .navigationTitle(subscription.name != "" ? "Adding \(subscription.name)" : "Add subscription")
-        .navigationBarItems(trailing: Button(action: {
-            print(subscriptionData)
-            moc.delete(subscriptionData!)
-            do {
-                try moc.save()
-                presentationMode.wrappedValue.dismiss()
-            } catch {
-                print(error)
-            }
-        }, label: {
-            Text("Delete").foregroundColor(.red).bold()
-        }))
+                .navigationBarItems(trailing: Button(action: {
+                    moc.delete(subscriptionData!)
+                    do {
+                        try moc.save()
+                        presentationMode.wrappedValue.dismiss()
+                    } catch {
+                        print(error)
+                    }
+                }, label: {
+                    Text("Delete").foregroundColor(.red).bold()
+                }))
     }
         .alert(isPresented: $displayWarning) {
             Alert(
@@ -166,6 +176,7 @@ struct NewSubscriptionView_Previews: PreviewProvider {
         case name = "You need to set subscription name!"
         case price = "Your price must be diffrent than 0!"
         case family = "You need to add family members!"
+        case date = "You can't subscription date for future!"
     }
                     
 }

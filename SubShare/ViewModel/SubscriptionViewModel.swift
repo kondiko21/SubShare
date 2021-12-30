@@ -115,6 +115,9 @@ class SubscriptionViewModel : ObservableObject {
         if memberNames.count <= 0 {
             warningList.append(.family)
         }
+        if paymentDate > Date() {
+            warningList.append(.date)
+        }
         
         return warningList
     }
@@ -123,5 +126,6 @@ class SubscriptionViewModel : ObservableObject {
         case name = "You need to set subscription name!"
         case price = "Your price must be diffrent than 0!"
         case family = "You need to add family members!"
+        case date = "You can't subscription date for future!"
     }
 }

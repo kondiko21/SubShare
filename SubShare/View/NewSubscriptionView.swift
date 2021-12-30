@@ -16,6 +16,13 @@ struct NewSubscriptionView: View {
     @State var displayWarning = false
     @State private var warningString = ""
     @ObservedObject var subscription = SubscriptionViewModel()
+    var numberFormatter = NumberFormatter()
+    
+    init() {
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.minimumFractionDigits = 2
+    }
     
     var body: some View {
         Form {
@@ -69,7 +76,8 @@ struct NewSubscriptionView: View {
                                 .disabled(subscription.divideCostEqually)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .keyboardType(.decimalPad)
-                                .frame(width:80)
+                                .frame(width:60)
+                                .multilineTextAlignment(.trailing)
                             Text("zł")
                         }
                     }
@@ -149,6 +157,7 @@ struct NewSubscriptionView_Previews: PreviewProvider {
         case name = "You need to set subscription name!"
         case price = "Your price must be diffrent than 0!"
         case family = "You need to add family members!"
+        case date = "You can't subscription date for future!"
     }
                     
 }
