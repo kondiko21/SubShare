@@ -8,8 +8,27 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @FetchRequest(
+        entity: FamilyMemberModel.entity(),
+        sortDescriptors: []
+    ) var members: FetchedResults<FamilyMemberModel>
+    @Environment(\.managedObjectContext) var moc
+    let subscriptionManager = SubscriptionManager.shared
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        ScrollView {
+            VStack {
+                ForEach(members, id: \.id) { member in
+                    if subscriptionManager.countMissingPayments(for: member) > 0 {
+                        Text(member.name)
+                    }
+                }
+            }
+        }
+        .navigationBarItems(leading: Image("logo_wide").resizable().aspectRatio(contentMode: .fit)
+)
     }
 }
 

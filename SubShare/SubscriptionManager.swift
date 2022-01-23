@@ -21,9 +21,15 @@ class SubscriptionManager {
         return nextDate!
     }
     
+    func addOneDay(to currentDate: Date) -> Date {
+        let nextDate = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)
+        return nextDate!
+    }
+    
     func countMissingPayments(for member: FamilyMemberModel) -> Int {
        
         let list = generatePaymentList(for: member)
+        print(list)
         return list.count
     }
     
@@ -33,7 +39,7 @@ class SubscriptionManager {
         var lastPaymentDate = member.lastPaymentDate
         var list : [Date] = []
         
-        if addPaymentInterval(for: member) >= paymentDate {
+        if addPaymentInterval(for: member) <= paymentDate {
             list.append(lastPaymentDate)
         }
 

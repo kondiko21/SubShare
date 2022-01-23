@@ -25,11 +25,9 @@ struct PaymentManagerView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMMM y"
         let dateList = manager.generatePaymentList(for: familymember)
-        print(dateList)
         _paymentList = State(initialValue: dateList.map {
             formatter.string(from: $0)
         })
-        print(paymentList)
     }
     
     var body: some View {

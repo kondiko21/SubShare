@@ -12,6 +12,9 @@ struct EditSubscriptionView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    @AppStorage("selectedCurrency") var currencyCode : String = "USD"
+    @State var selectedCurrency = ""
+    
     var numberFormatter = NumberFormatter()
     
     @State var displayWarning = false
@@ -20,11 +23,17 @@ struct EditSubscriptionView: View {
     @ObservedObject var subscription : SubscriptionViewModel
     
     init(subscriptionData: SubscriptionModel) {
-        self.subscription = SubscriptionViewModel(subscription: subscriptionData)
+        
+        if !subscriptionData.isFault {
+            self.subscription = SubscriptionViewModel(subscription: subscriptionData)
+        } else {
+            self.subscription = SubscriptionViewModel()
+        }
         self.subscriptionData = subscriptionData
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
         numberFormatter.minimumFractionDigits = 2
+        _selectedCurrency = State(initialValue: getSymbol(forCurrencyCode: currencyCode)!)
     }
     
     var body: some View {
@@ -43,15 +52,15 @@ struct EditSubscriptionView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(width: 60)
                         .multilineTextAlignment(.trailing)
-                    Text("zl")
+                    Text(selectedCurrency)
                 }.onChange(of: subscription.price) { newValue in
-                    let newPrice = subscription.price / Double(subscription.memberNames.count)
+                    let newPrice = subscription.price / Double(subscription.familyCount+1)
                     if subscription.divideCostEqually {
                         subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
                     }
                 }
                 .onChange(of: subscription.divideCostEqually) { newValue in
-                    let newPrice = subscription.price / Double(subscription.memberNames.count)
+                    let newPrice = subscription.price / Double(subscription.familyCount+1)
                     if subscription.divideCostEqually {
                         subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
                     }
@@ -74,7 +83,7 @@ struct EditSubscriptionView: View {
             //Family part
             Section(header: Text("Family").offset(x: -15, y: 0).foregroundColor(.black)) {
                 VStack {
-                    ForEach($subscription.memberNames.indices, id:\.self) {index in
+                    ForEach(0...subscription.familyCount, id:\.self) { index in
                         HStack {
                             if index != 0 {
                                 TextField("Name", text: $subscription.memberNames[index])
@@ -87,14 +96,17 @@ struct EditSubscriptionView: View {
                                 .keyboardType(.decimalPad)
                                 .frame(width:60)
                                 .multilineTextAlignment(.trailing)
-                            Text("zł")
+                            Text(selectedCurrency)
                         }
                     }
                     HStack {
                         Button {
-                            subscription.memberNames.append("")
-                            subscription.memberPrices.append(0)
-                            let newPrice = subscription.price / Double(subscription.memberNames.count)
+                            if subscription.familyCount + 1 > subscription.memberNames.count - 1 {
+                                subscription.memberNames.append("")
+                                subscription.memberPrices.append(0)
+                            }
+                            subscription.familyCount += 1
+                            let newPrice = subscription.price / Double(subscription.familyCount)
                             if subscription.divideCostEqually {
                                 subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
                             }
@@ -105,11 +117,12 @@ struct EditSubscriptionView: View {
                         }.buttonStyle(BorderlessButtonStyle())
                         Spacer()
                         Button {
-                            if subscription.memberPrices.count > 1 {
-                                subscription.memberNames.removeLast()
-                                subscription.memberPrices.removeLast()
+                            if subscription.familyCount > 0 {
+                                subscription.memberNames[subscription.familyCount] = ""
+                                subscription.memberPrices[subscription.familyCount] = 0
+                                subscription.familyCount -= 1
                             }
-                            let newPrice = subscription.price / Double(subscription.memberNames.count)
+                            let newPrice = subscription.price / Double(subscription.familyCount)
                             if subscription.divideCostEqually {
                                 subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
                             }
@@ -119,40 +132,44 @@ struct EditSubscriptionView: View {
                                 .foregroundColor(.yellow)
                                 .bold()
                         }.buttonStyle(BorderlessButtonStyle())
-
+                        
                     }.padding([.leading, .trailing])
                 }
                 
-        }
-        Button {
-            let warningList = subscription.generateWarning()
-            if warningList.isEmpty {
-                subscription.saveEdit()
-                presentationMode.wrappedValue.dismiss()
-            } else {
-                warningString = ""
-                for item in warningList {
-                    warningString += "\(item.rawValue)\n"
-                }
-                displayWarning = true
             }
-            
-        } label: {
-            Text("Edit").foregroundColor(.yellow).bold()
-        }
-        .navigationTitle(subscription.name != "" ? "Adding \(subscription.name)" : "Add subscription")
-                .navigationBarItems(trailing: Button(action: {
+            Button {
+                let warningList = subscription.generateWarning()
+                if warningList.isEmpty {
+                    subscription.saveEdit()
+                    presentationMode.wrappedValue.dismiss()
+                } else {
+                    warningString = ""
+                    for item in warningList {
+                        warningString += "\(item.rawValue)\n"
+                    }
+                    displayWarning = true
+                }
+                
+            } label: {
+                Text("Edit").foregroundColor(.yellow).bold()
+            }
+            .navigationTitle(subscription.name != "" ? "Adding \(subscription.name)" : "Add subscription")
+            .navigationBarItems(trailing: Button(action: {
+                presentationMode.wrappedValue.dismiss()
+                DispatchQueue.main.async {
                     moc.delete(subscriptionData!)
                     do {
                         try moc.save()
-                        presentationMode.wrappedValue.dismiss()
                     } catch {
                         print(error)
                     }
-                }, label: {
-                    Text("Delete").foregroundColor(.red).bold()
-                }))
-    }
+                    NotificationManager.shared.removeNotification(id: "\(subscription.id)")
+                }
+                
+            }, label: {
+                Text("Delete").foregroundColor(.red).bold()
+            }))
+        }
         .alert(isPresented: $displayWarning) {
             Alert(
                 title: Text("Incorrect data"),
@@ -163,14 +180,14 @@ struct EditSubscriptionView: View {
         .onAppear {
             subscription.moc = moc  // << set up context here
         }
-}
-        
-
-struct NewSubscriptionView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewSubscriptionView()
     }
-}
+    
+    
+    struct NewSubscriptionView_Previews: PreviewProvider {
+        static var previews: some View {
+            NewSubscriptionView()
+        }
+    }
     
     enum DataValidationMessages : String {
         case name = "You need to set subscription name!"
@@ -178,5 +195,5 @@ struct NewSubscriptionView_Previews: PreviewProvider {
         case family = "You need to add family members!"
         case date = "You can't subscription date for future!"
     }
-                    
+    
 }

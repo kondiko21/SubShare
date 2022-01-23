@@ -18,7 +18,7 @@
         <relationship name="familyMember" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FamilyMemberModel" inverseName="subscription" inverseEntity="FamilyMemberModel"/>
     </entity>
     <elements>
-        <element name="SubscriptionModel" positionX="-63" positionY="-18" width="128" height="134"/>
         <element name="FamilyMemberModel" positionX="-63" positionY="-9" width="128" height="119"/>
+        <element name="SubscriptionModel" positionX="-63" positionY="-18" width="128" height="134"/>
     </elements>
 </model>
