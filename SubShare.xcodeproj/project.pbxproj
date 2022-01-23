@@ -18,7 +18,6 @@
 		7176E340277482C3009BAFF8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E33F277482C3009BAFF8 /* MainView.swift */; };
 		7176E34227748334009BAFF8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E34127748334009BAFF8 /* SettingsView.swift */; };
 		7176E34527748356009BAFF8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E34427748356009BAFF8 /* HomeView.swift */; };
-		7176E34A277486DF009BAFF8 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E349277486DF009BAFF8 /* SubscriptionView.swift */; };
 		7176E34C2774C496009BAFF8 /* NewSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E34B2774C496009BAFF8 /* NewSubscriptionView.swift */; };
 		7176E351277673F2009BAFF8 /* SubscriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E350277673F2009BAFF8 /* SubscriptionViewModel.swift */; };
 		7176E36D27767871009BAFF8 /* FamilyMemberModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E36927767871009BAFF8 /* FamilyMemberModel+CoreDataClass.swift */; };
@@ -30,6 +29,7 @@
 		7176E378277B1CBD009BAFF8 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E377277B1CBD009BAFF8 /* SubscriptionManager.swift */; };
 		7176E37A277BB78B009BAFF8 /* PaymentManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E379277BB78B009BAFF8 /* PaymentManagerView.swift */; };
 		7176E37E277E2788009BAFF8 /* NotficationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176E37D277E2788009BAFF8 /* NotficationManager.swift */; };
+		71BC478E279DD17700187F90 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BC478D279DD17700187F90 /* SubscriptionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +64,6 @@
 		7176E33F277482C3009BAFF8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7176E34127748334009BAFF8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7176E34427748356009BAFF8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		7176E349277486DF009BAFF8 /* SubscriptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubscriptionView.swift; path = ../../../../../.Trash/SubscriptionView/SubscriptionView.swift; sourceTree = "<group>"; };
 		7176E34B2774C496009BAFF8 /* NewSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubscriptionView.swift; sourceTree = "<group>"; };
 		7176E350277673F2009BAFF8 /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
 		7176E36927767871009BAFF8 /* FamilyMemberModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FamilyMemberModel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		7176E377277B1CBD009BAFF8 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		7176E379277BB78B009BAFF8 /* PaymentManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManagerView.swift; sourceTree = "<group>"; };
 		7176E37D277E2788009BAFF8 /* NotficationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotficationManager.swift; sourceTree = "<group>"; };
+		71BC478D279DD17700187F90 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,7 +172,7 @@
 				7176E33F277482C3009BAFF8 /* MainView.swift */,
 				7176E34427748356009BAFF8 /* HomeView.swift */,
 				7176E34127748334009BAFF8 /* SettingsView.swift */,
-				7176E349277486DF009BAFF8 /* SubscriptionView.swift */,
+				71BC478D279DD17700187F90 /* SubscriptionView.swift */,
 				7176E379277BB78B009BAFF8 /* PaymentManagerView.swift */,
 				7176E34B2774C496009BAFF8 /* NewSubscriptionView.swift */,
 				7176E375277B0183009BAFF8 /* EditSubscriptionView.swift */,
@@ -333,6 +333,7 @@
 				7176E376277B0183009BAFF8 /* EditSubscriptionView.swift in Sources */,
 				7176E37A277BB78B009BAFF8 /* PaymentManagerView.swift in Sources */,
 				7176E371277722EE009BAFF8 /* SubscriptionModel+CoreDataClass.swift in Sources */,
+				71BC478E279DD17700187F90 /* SubscriptionView.swift in Sources */,
 				7176E34527748356009BAFF8 /* HomeView.swift in Sources */,
 				7176E378277B1CBD009BAFF8 /* SubscriptionManager.swift in Sources */,
 				7176E36E27767871009BAFF8 /* FamilyMemberModel+CoreDataProperties.swift in Sources */,
@@ -343,7 +344,6 @@
 				7176E36D27767871009BAFF8 /* FamilyMemberModel+CoreDataClass.swift in Sources */,
 				7176E372277722EE009BAFF8 /* SubscriptionModel+CoreDataProperties.swift in Sources */,
 				7176E340277482C3009BAFF8 /* MainView.swift in Sources */,
-				7176E34A277486DF009BAFF8 /* SubscriptionView.swift in Sources */,
 				7176E34C2774C496009BAFF8 /* NewSubscriptionView.swift in Sources */,
 				7176E37E277E2788009BAFF8 /* NotficationManager.swift in Sources */,
 				7176E31127748269009BAFF8 /* SubShareApp.swift in Sources */,

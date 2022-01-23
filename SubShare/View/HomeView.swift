@@ -20,9 +20,11 @@ struct HomeView: View {
         
         ScrollView {
             VStack {
-                ForEach(members, id: \.id) { member in
-                    if subscriptionManager.countMissingPayments(for: member) > 0 {
-                        Text(member.name)
+                LazyVGrid(columns: [GridItem(.flexible(minimum: 2, maximum: 2))]) {
+                    ForEach(members, id: \.id) { member in
+                        if subscriptionManager.countMissingPayments(for: member) > 0 && member.order != 0 {
+                            Text(member.name)
+                        }
                     }
                 }
             }
