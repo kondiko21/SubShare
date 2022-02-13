@@ -16,7 +16,8 @@ struct PaymentManagerView: View {
     @Binding var outstangingPayments : Int
     @State var paymentList : [String] = []
     let manager = SubscriptionManager.shared
-    
+    @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
+
     init(familyMember: Binding<FamilyMemberModel>, outstangingPayments: Binding<Int>, presentationModel : Binding<Bool>) {
         
         self._familymember = familyMember
@@ -44,13 +45,13 @@ struct PaymentManagerView: View {
                                 print(error)
                             }
                     }
-                    
                 } label: {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 10).stroke(Color.yellow, lineWidth: 3)
-                        Text("Pay one").foregroundColor(.black).bold()
+                        RoundedRectangle(cornerRadius: 10).stroke(Color(systemTheme), lineWidth: 3)
+                        Text("Pay one").foregroundColor(Color(systemTheme)).bold()
                     }.frame(height: 50)
-                }
+                }.buttonStyle(PlainButtonStyle())
+
                 Button {
                     if paymentList.count > 0 {
                         familymember.lastPaymentDate = familymember.subscription.paymentDate
@@ -64,7 +65,7 @@ struct PaymentManagerView: View {
                     }
                 } label: {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 10).foregroundColor(.yellow)
+                        RoundedRectangle(cornerRadius: 10).foregroundColor(Color(systemTheme))
                         Text("Pay all").foregroundColor(.black).bold()
                     }.frame(height: 50)
                 }
@@ -75,7 +76,7 @@ struct PaymentManagerView: View {
                 ForEach(paymentList, id: \.self) { date in
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(Color(systemTheme))
                         .opacity(0.9)
                         Text(date).bold().padding()
                     }

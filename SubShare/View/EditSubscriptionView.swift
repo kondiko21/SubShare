@@ -14,6 +14,8 @@ struct EditSubscriptionView: View {
     @Environment(\.presentationMode) var presentationMode
     @AppStorage("selectedCurrency") var currencyCode : String = "USD"
     @State var selectedCurrency = ""
+    @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
+
     
     var numberFormatter = NumberFormatter()
     
@@ -77,6 +79,7 @@ struct EditSubscriptionView: View {
                         Text("Every month").tag(true)
                         Text("Every 30 days").tag(false)
                     }.pickerStyle(SegmentedPickerStyle())
+                        .disabled(true)
                 }
             }
             
@@ -112,7 +115,7 @@ struct EditSubscriptionView: View {
                             }
                         } label: {
                             Text("Add")
-                                .foregroundColor(.yellow)
+                                .foregroundColor(Color(systemTheme))
                                 .bold()
                         }.buttonStyle(BorderlessButtonStyle())
                         Spacer()
@@ -129,7 +132,7 @@ struct EditSubscriptionView: View {
                             
                         } label: {
                             Text("Remove")
-                                .foregroundColor(.yellow)
+                                .foregroundColor(Color(systemTheme))
                                 .bold()
                         }.buttonStyle(BorderlessButtonStyle())
                         
@@ -151,9 +154,9 @@ struct EditSubscriptionView: View {
                 }
                 
             } label: {
-                Text("Edit").foregroundColor(.yellow).bold()
+                Text("Edit").foregroundColor(Color(systemTheme)).bold()
             }
-            .navigationTitle(subscription.name != "" ? "Adding \(subscription.name)" : "Add subscription")
+//            .navigationTitle(subscription.name)
             .navigationBarItems(trailing: Button(action: {
                 presentationMode.wrappedValue.dismiss()
                 DispatchQueue.main.async {

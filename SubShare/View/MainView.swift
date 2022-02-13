@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
+
     var body: some View {
             TabView {
                 NavigationView {
@@ -30,9 +33,9 @@ struct MainView: View {
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
-                    .accentColor(.yellow)
+                    .accentColor(Color(systemTheme))
             }
-            .accentColor(.yellow)
+            .accentColor(Color(systemTheme))
         }
 }
 

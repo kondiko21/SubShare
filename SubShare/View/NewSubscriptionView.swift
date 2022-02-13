@@ -19,6 +19,8 @@ struct NewSubscriptionView: View {
     @State private var warningString = ""
     @ObservedObject var subscription = SubscriptionViewModel()
     var numberFormatter = NumberFormatter()
+    @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
+
     
     init() {
         numberFormatter.numberStyle = .decimal
@@ -97,7 +99,7 @@ struct NewSubscriptionView: View {
                             }
                         } label: {
                             Text("Add")
-                                .foregroundColor(.yellow)
+                                .foregroundColor(Color(systemTheme))
                                 .bold()
                         }.buttonStyle(BorderlessButtonStyle())
                         Spacer()
@@ -115,7 +117,7 @@ struct NewSubscriptionView: View {
                             
                         } label: {
                             Text("Remove")
-                                .foregroundColor(.yellow)
+                                .foregroundColor(Color(systemTheme))
                                 .bold()
                         }.buttonStyle(BorderlessButtonStyle())
                         
@@ -137,7 +139,7 @@ struct NewSubscriptionView: View {
                 }
                 
             } label: {
-                Text("Submit").foregroundColor(.yellow).bold()
+                Text("Submit").foregroundColor(Color(systemTheme)).bold()
             }
             
             .navigationTitle(subscription.name != "" ? "Adding \(subscription.name)" : "Add subscription")

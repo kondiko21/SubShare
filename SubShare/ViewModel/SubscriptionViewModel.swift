@@ -59,6 +59,12 @@ class SubscriptionViewModel : ObservableObject {
     }
     
     func save() {
+        let calendar = Calendar.current
+        var comp = calendar.dateComponents([.day, .month, .year], from: paymentDate)
+        comp.hour = 0
+        comp.minute = 0
+        paymentDate = calendar.date(from: comp)!
+        
         let model = SubscriptionModel(context: moc)
             model.id = id
             model.name = name
