@@ -20,6 +20,7 @@ struct EditSubscriptionView: View {
     var numberFormatter = NumberFormatter()
     
     @State var displayWarning = false
+    @State var deleteWarning = false
     @State private var warningString = ""
     var subscriptionData : SubscriptionModel?
     @ObservedObject var subscription : SubscriptionViewModel
@@ -35,7 +36,7 @@ struct EditSubscriptionView: View {
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
         numberFormatter.minimumFractionDigits = 2
-        _selectedCurrency = State(initialValue: getSymbol(forCurrencyCode: currencyCode)!)
+        _selectedCurrency = State(initialValue: currencyCode)
     }
     
     var body: some View {
@@ -158,20 +159,22 @@ struct EditSubscriptionView: View {
             }
 //            .navigationTitle(subscription.name)
             .navigationBarItems(trailing: Button(action: {
-                presentationMode.wrappedValue.dismiss()
-                DispatchQueue.main.async {
-                    moc.delete(subscriptionData!)
-                    do {
-                        try moc.save()
-                    } catch {
-                        print(error)
-                    }
-                    NotificationManager.shared.removeNotification(id: "\(subscription.id)")
-                }
-                
+               deleteWarning = true
             }, label: {
                 Text("Delete").foregroundColor(.red).bold()
             }))
+            
+            .alert(isPresented: $deleteWarning) {
+                Alert(
+                    title: Text("Are you sure you want to delete?"),
+                    message: Text(warningString),
+                    primaryButton: .destructive(Text("Cancel")),
+                    secondaryButton: .default(Text("Delete"), action: {
+                        removeSubscription()
+                    })
+                    
+                )
+            }
         }
         .alert(isPresented: $displayWarning) {
             Alert(
@@ -189,6 +192,19 @@ struct EditSubscriptionView: View {
     struct NewSubscriptionView_Previews: PreviewProvider {
         static var previews: some View {
             NewSubscriptionView()
+        }
+    }
+    
+    func removeSubscription() {
+        presentationMode.wrappedValue.dismiss()
+        DispatchQueue.main.async {
+            moc.delete(subscriptionData!)
+            do {
+                try moc.save()
+            } catch {
+                print(error)
+            }
+            NotificationManager.shared.removeNotification(id: "\(subscription.id)")
         }
     }
     

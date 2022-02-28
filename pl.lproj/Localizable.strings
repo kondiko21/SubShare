@@ -1,0 +1,156 @@
+/* No comment provided by engineer. */
+"Add" = "Dodaj";
+
+/* No comment provided by engineer. */
+"Add new" = "Dodaj nową";
+
+/* No comment provided by engineer. */
+"Add subscription" = "Dodaj subskrypcję";
+
+/* No comment provided by engineer. */
+"Amount" = "Ilość";
+
+/* No comment provided by engineer. */
+"Any subscriptions added yet.\nGo to subscription section and add your first subscription!" = "Nie dodano jeszcze żadnej subskrypcji./n Przejdź do zakładki Subskrypcje i dodaj pierwszą subskrypcję!";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete?" = "Czy na pewno chcesz usunąć?";
+
+/* No comment provided by engineer. */
+"Back" = "Wróć";
+
+/* No comment provided by engineer. */
+"Cancel" = "Anuluj";
+
+/* No comment provided by engineer. */
+"Currency symbol" = "Symbol waluty";
+
+/* No comment provided by engineer. */
+"Delete" = "Usuń";
+
+/* No comment provided by engineer. */
+"Divide cost equally" = "Podziel po równo";
+
+/* No comment provided by engineer. */
+"e.g Spotify, Netflix" = "np. Spotify, Netflix";
+
+/* No comment provided by engineer. */
+"Edit" = "Edytuj";
+
+/* No comment provided by engineer. */
+"Every 30 days" = "Co 30 dni";
+
+/* No comment provided by engineer. */
+"Every month" = "Co miesiąc";
+
+/* No comment provided by engineer. */
+"Family" = "Rodzina";
+
+/* No comment provided by engineer. */
+"Family:" = "Rodzina:";
+
+/* No comment provided by engineer. */
+"Got it!" = "Rozumiem!";
+
+/* No comment provided by engineer. */
+"Home" = "Dom";
+
+/* No comment provided by engineer. */
+"Incorrect data" = "Niepoprawne dane";
+
+/* No comment provided by engineer. */
+"Last payment: %@" = "Ostatnia płatność %@";
+
+/* No comment provided by engineer. */
+"Main app theme" = "Motyw aplikacji";
+
+/* No comment provided by engineer. */
+"Manage" = "Zarządzaj";
+
+/* No comment provided by engineer. */
+"Missing payments:" = "Brakujące płatności:";
+
+/* No comment provided by engineer. */
+"Name" = "Nazwa";
+
+/* No comment provided by engineer. */
+"Next payment: %@" = "Następna płatność: %@";
+
+/* No comment provided by engineer. */
+"onboard_message1" = "W zakładce \"Subskrypcje\" możesz dodać swoje usługi i dodać swoją rodzinę. Ułatwia to zarządzanie opłatami.";
+
+/* No comment provided by engineer. */
+"onboard_message2" = "Odnotuj pojedyncze płatności lub wykreśl wszystkie należności za jednym razem. Płatności dostępne są w widoku Dom oraz Subskrypcje.";
+
+/* No comment provided by engineer. */
+"onboard_message3" = "Otrzymasz powiadomienie kiedy odnowi się twoja subskrypcja. Możesz wtedy wejść i powiadomić swoich znajomych jednym kliknięciem!";
+
+/* No comment provided by engineer. */
+"onboard_message4" = "Wersja SubShare PRO umożliwia dodanie więcej niż jednej subskrypcji.";
+
+/* No comment provided by engineer. */
+"onboard_title1" = "Dodaj subskrypcje";
+
+/* No comment provided by engineer. */
+"onboard_title2" = "Zarządzaj płatnościami";
+
+/* No comment provided by engineer. */
+"onboard_title3" = "Powiadomienia";
+
+/* No comment provided by engineer. */
+"onboard_title4" = "SubShare PRO";
+
+/* No comment provided by engineer. */
+"Outstanding payments: %lld" = "Zaległe płatności: %lld";
+
+/* No comment provided by engineer. */
+"Pay all" = "Zapłać wszystkie";
+
+/* No comment provided by engineer. */
+"Pay one" = "Zapłać jedną";
+
+/* No comment provided by engineer. */
+"PAY ONE" = "ZAPŁAĆ";
+
+/* No comment provided by engineer. */
+"Payment renewal" = "Odnowienie płatności";
+
+/* No comment provided by engineer. */
+"Price" = "Cena";
+
+/* No comment provided by engineer. */
+"Primary informations" = "Podstawowe informacje";
+
+/* No comment provided by engineer. */
+"Reminder" = "Przypomnienie";
+
+/* No comment provided by engineer. */
+"Remove" = "Usuń";
+
+/* No comment provided by engineer. */
+"Reset app" = "Zresetuj aplikację";
+
+/* No comment provided by engineer. */
+"Service" = "Usługa";
+
+/* No comment provided by engineer. */
+"Settings" = "Ustawienia";
+
+/* No comment provided by engineer. */
+"Start date" = "Data początkowa";
+
+/* No comment provided by engineer. */
+"Strength" = "Siła";
+
+/* No comment provided by engineer. */
+"Submit" = "Zatwierdź";
+
+/* No comment provided by engineer. */
+"Subscriptions" = "Subskrypcje";
+
+/* No comment provided by engineer. */
+"SubShare" = "SubShare";
+
+/* No comment provided by engineer. */
+"Value of payments:" = "Wartość płatności:";
+

@@ -10,12 +10,25 @@ import SwiftUI
 struct MainView: View {
     
     @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
+    var hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+    @State var isActive : Bool
+    
+    init() {
+        print(hasLaunchedBefore)
+        if !hasLaunchedBefore {
+            _isActive = State(initialValue: true)
+            hasLaunchedBefore = true
+        } else {
+            _isActive = State(initialValue: false)
+        }
+    }
 
     var body: some View {
             TabView {
                 NavigationView {
                     HomeView()
                 }
+                .navigationBarHidden(true)
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
@@ -23,6 +36,8 @@ struct MainView: View {
                     SubscriptionView()
                         .navigationTitle("Subscriptions")
                 }
+                .navigationBarHidden(true)
+                .navigationTitle(Text(""))
                 .tabItem {
                     Label("Subscriptions", systemImage: "book.fill")
                 }
@@ -36,6 +51,10 @@ struct MainView: View {
                     .accentColor(Color(systemTheme))
             }
             .accentColor(Color(systemTheme))
+            .sheet(isPresented: $isActive, content: {
+                OnboardingView(isActive: $isActive)
+            })
+            .navigationBarBackButtonHidden(true)
         }
 }
 

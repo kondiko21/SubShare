@@ -2,7 +2,7 @@
 //  FamilyMemberModel+CoreDataClass.swift
 //  SubShare
 //
-//  Created by Konrad on 24/12/2021.
+//  Created by Konrad on 18/02/2022.
 //
 //
 

@@ -55,7 +55,6 @@ final class NotificationManager : NotificationCenter {
             request  = UNNotificationRequest(identifier: "\(subscription.id)", content: content, trigger: trigger)
         }
         UNUserNotificationCenter.current().add(request!, withCompletionHandler: nil)
-        print("added request \(request)")
     }
     
     func nextNotification(for object: UNNotification, date : Date) {

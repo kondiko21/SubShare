@@ -57,7 +57,7 @@ struct HomeView: View {
                     }
                 }
         }
-            
+        
     }
 }
 
@@ -68,7 +68,7 @@ struct PersonShortcutView: View {
     let numberFormatter = NumberFormatter()
     @State var paymentAmount : Double
     @State var paymentCount : Int
-    @AppStorage("selectedCurrency") var currencyCode : String = "USD"
+    @AppStorage("selectedCurrency") var currencyCode : String = "$"
     @Environment(\.managedObjectContext) var moc
     @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
 
@@ -93,7 +93,7 @@ struct PersonShortcutView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.white)
                         HStack {
-                            Text("\(paymentAmount, specifier: "%0.2f \(getSymbol(forCurrencyCode: currencyCode)!)")").foregroundColor(.black)
+                            Text("\(paymentAmount, specifier: "%0.2f \(currencyCode)")").foregroundColor(.black)
                                 .font(.headline)
                                 .padding(.leading, 10)
                                 .padding([.top, .bottom], 5)

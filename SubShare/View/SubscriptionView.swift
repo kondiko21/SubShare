@@ -54,6 +54,18 @@ struct SingleSubscription: View {
     init(_ subscription: SubscriptionModel) {
         self.subscription = subscription
         formatter.dateFormat = "d MMM YYYY"
+        if !subscription.isFault {
+            if subscription.paymentDate <= Date() {
+                while subscriptionManager.addPaymentInterval(for: subscription) < Date() {
+                    subscription.paymentDate = subscriptionManager.addPaymentInterval(for: subscription)
+                    do {
+                        try moc.save()
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+        }
         nextPaymentDate = formatter.string(from: subscriptionManager.addPaymentInterval(for: subscription))
     }
     
@@ -91,21 +103,6 @@ struct SingleSubscription: View {
                 }
                 Spacer()
             }.padding()
-        }
-        .onAppear {
-            if !subscription.isFault {
-                if subscription.paymentDate <= Date() {
-                    var date = subscription.paymentDate
-                    while subscriptionManager.addPaymentInterval(for: subscription) < Date() {
-                        subscription.paymentDate = subscriptionManager.addPaymentInterval(for: subscription)
-                        do {
-                            try moc.save()
-                        } catch {
-                            print(error)
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -160,8 +157,11 @@ struct PersonSubscriptionView: View {
                 PaymentManagerView(familyMember: $member, outstangingPayments: $outstandingPaymentAmount, presentationModel: $isPresented)
             }
             .sheet(isPresented: $isSharePresented, content: {
-                ActivityViewController(activityItems: ["Hi! You owe me \(member.value) \(getSymbol(forCurrencyCode: currencyCode)!) for next month of \(member.subscription.name) subscription. \nSent with SubShare", Image("logo_wide")])
+                ActivityViewController(activityItems: ["Hi! You owe me \(member.value) \(currencyCode) for next month of \(member.subscription.name) subscription. \nSent with SubShare", Image("logo_wide")])
                     })
+            .onAppear {
+                outstandingPaymentAmount = subscriptionManager.countMissingPayments(for: member)
+            }
         }
         .frame(height:50)
     }

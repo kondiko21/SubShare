@@ -2,7 +2,7 @@
 //  SubscriptionModel+CoreDataClass.swift
 //  SubShare
 //
-//  Created by Konrad on 25/12/2021.
+//  Created by Konrad on 18/02/2022.
 //
 //
 

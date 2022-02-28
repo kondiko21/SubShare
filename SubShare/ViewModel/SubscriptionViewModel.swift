@@ -121,6 +121,14 @@ class SubscriptionViewModel : ObservableObject {
     func generateWarning() -> [DataValidationMessages] {
         
         var warningList : [DataValidationMessages] = []
+        var correctNames = true
+        
+        for i in 0...familyCount {
+            if memberNames[i] == "" {
+                correctNames = false
+                break;
+            }
+        }
         
         if name == "" {
             warningList.append(.name)
@@ -129,6 +137,8 @@ class SubscriptionViewModel : ObservableObject {
             warningList.append(.price)
         }
         if memberNames.count <= 1 {
+            warningList.append(.family)
+        } else if !correctNames {
             warningList.append(.family)
         }
         if paymentDate > Date() {

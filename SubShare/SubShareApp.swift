@@ -11,11 +11,12 @@ import SwiftUI
 struct SubShareApp: App {
     let persistenceController = PersistenceController.shared
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
 
     var body: some Scene {
         WindowGroup {
             MainView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

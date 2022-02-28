@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="FamilyMemberModel" representedClassName="FamilyMemberModel" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastPaymentDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="historyEntity" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HistoryEntity" inverseName="member" inverseEntity="HistoryEntity"/>
         <relationship name="subscription" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SubscriptionModel" inverseName="familyMember" inverseEntity="SubscriptionModel"/>
+    </entity>
+    <entity name="HistoryEntity" representedClassName=".HistoryEntity" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="operation" optional="YES" attributeType="String"/>
+        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FamilyMemberModel" inverseName="historyEntity" inverseEntity="FamilyMemberModel"/>
+        <relationship name="subscription" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SubscriptionModel" inverseName="historyEntity" inverseEntity="SubscriptionModel"/>
     </entity>
     <entity name="SubscriptionModel" representedClassName="SubscriptionModel" syncable="YES">
         <attribute name="divideCostEqually" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -16,9 +24,11 @@
         <attribute name="paymentDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="familyMember" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FamilyMemberModel" inverseName="subscription" inverseEntity="FamilyMemberModel"/>
+        <relationship name="historyEntity" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HistoryEntity" inverseName="subscription" inverseEntity="HistoryEntity"/>
     </entity>
     <elements>
-        <element name="FamilyMemberModel" positionX="-63" positionY="-9" width="128" height="119"/>
-        <element name="SubscriptionModel" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="FamilyMemberModel" positionX="-63" positionY="-9" width="128" height="134"/>
+        <element name="SubscriptionModel" positionX="-63" positionY="-18" width="128" height="149"/>
+        <element name="HistoryEntity" positionX="-54" positionY="45" width="128" height="104"/>
     </elements>
 </model>

@@ -45,7 +45,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        var notification = response.notification
+        let notification = response.notification
         print("Notification received with identifier \(notification.request.identifier)")
         var date = notification.request.content.userInfo["subscription"] as! Date
         print("Before date \(date)")

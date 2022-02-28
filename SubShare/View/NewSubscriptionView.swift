@@ -26,7 +26,7 @@ struct NewSubscriptionView: View {
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
         numberFormatter.minimumFractionDigits = 2
-        _selectedCurrency = State(initialValue: getSymbol(forCurrencyCode: currencyCode)!)
+        _selectedCurrency = State(initialValue: currencyCode)
     }
     
     var body: some View {
