@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import CoreData
+import Firebase
+import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
@@ -15,50 +17,59 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     var subscriptionManager = SubscriptionManager.shared
     var notificationManager = NotificationManager.shared
     
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+//        FirebaseConfiguration.shared.setLoggerLevel(.min)
+        Messaging.messaging().delegate = self
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
         UNUserNotificationCenter.current().delegate = self
-        print("NOT")
         let center = UNUserNotificationCenter.current()
                 center.getPendingNotificationRequests(completionHandler: { requests in
                     for request in requests {
                         print("NOTIFICATION: \(String(describing: request.trigger)) \(request.content.body)")
                     }
                 })
+        
+        if #available(iOS 10.0, *) {
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
+
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+          )
+        } else {
+          let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+          application.registerUserNotificationSettings(settings)
+        }
+
+        application.registerForRemoteNotifications()
+        
         return true
     }
     
-    private func userNotificationCenter(_ center: UNUserNotificationCenter, didRecive notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("Notification received with identifier \(notification.request.identifier)")
-//        var date = notification.request.content.userInfo["subscription"] as! Date
-//        print("Before date \(date)")
-//        date = subscriptionManager.addOneDay(to: date)
-//        print("After date \(date)")
-//        do {
-//            try moc.save()
-//        } catch {
-//            print(error)
-//        }
-
-//        notificationManager.nextNotification(for: notification, date: date)
-
-        completionHandler([.banner, .sound])
+    
+    internal func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+      Messaging.messaging().apnsToken = deviceToken
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let notification = response.notification
-        print("Notification received with identifier \(notification.request.identifier)")
-        var date = notification.request.content.userInfo["subscription"] as! Date
-        print("Before date \(date)")
-        date = subscriptionManager.addOneDay(to: date)
-        print("After date \(date)")
-        do {
-            try moc.save()
-        } catch {
-            print(error)
-        }
-        
-        notificationManager.nextNotification(for: notification, date: date)
-        
-    }
-    
+}
+
+extension AppDelegate: MessagingDelegate {
+  func messaging(
+    _ messaging: Messaging,
+    didReceiveRegistrationToken fcmToken: String?
+  ) {
+      print("Firebase registration token: \(String(describing: fcmToken))")
+
+    let tokenDict = ["token": fcmToken ?? ""]
+    NotificationCenter.default.post(
+      name: Notification.Name("FCMToken"),
+      object: nil,
+      userInfo: tokenDict)
+  }
 }

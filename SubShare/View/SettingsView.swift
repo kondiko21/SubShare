@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct SettingsView: View {
     
@@ -19,6 +20,7 @@ struct SettingsView: View {
     ) var members: FetchedResults<FamilyMemberModel>
     @Environment(\.managedObjectContext) var moc
     @State var deleteWarning = false
+    @State var restoreAlert = false
     
     @AppStorage("selectedCurrency") var selectedCurrency : String = "$"
     @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
@@ -44,13 +46,6 @@ struct SettingsView: View {
                             .frame(width:60)
                             .multilineTextAlignment(.trailing)
                     }
-                Section {
-                    Button {
-                        deleteWarning = true
-                    } label: {
-                        Text("Reset app").foregroundColor(.red)
-                    }
-                }
                 Section(header: Text("Main app theme")) {
                     LazyVGrid(columns: columns) {
                         ForEach(themeList, id:\.self) { color in
@@ -73,6 +68,22 @@ struct SettingsView: View {
                         }
                     }
                 }
+                    Section {
+                        Button {
+                            StoreManager().restoreProducts()
+                            restoreAlert = true
+                            
+                        } label: {
+                            Text("Restore Premium")
+                        }
+                    }
+                    Section {
+                        Button {
+                            deleteWarning = true
+                        } label: {
+                            Text("Reset app").foregroundColor(.red)
+                        }
+                    }
                 .alert(isPresented: $deleteWarning) {
                     Alert(
                         title: Text("Are you sure you want to delete?"),
@@ -85,6 +96,11 @@ struct SettingsView: View {
                 }
             }
         }
+            .toast(isPresenting: $restoreAlert, duration: 2, tapToDismiss: true, alert: {
+                
+                AlertToast(type: .complete(Color("theme_yellow")), title: "Restored successfully", subTitle: "")
+
+             })
     }
     
     func resetApp() {

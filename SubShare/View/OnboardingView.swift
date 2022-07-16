@@ -34,7 +34,7 @@ struct OnboardingView: View {
         Page(id: 0, title: title1, description: message1, image_name: "logo_wide"),
         Page(id: 1, title: title2, description: message2, image_name: "payment_image"),
         Page(id: 2, title: title3, description: message3, image_name: "notification_image"),
-        Page(id: 3, title: title4, description: message4, image_name: "pro_image")
+        Page(id: 3, title: title4, description: message4, image_name: "pro_logo")
     ]
     
     var body: some View {

@@ -12,18 +12,20 @@ struct MainView: View {
     @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
     var hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
     @State var isActive : Bool
+    @EnvironmentObject var storeManager : StoreManager
     
     init() {
         print(hasLaunchedBefore)
         if !hasLaunchedBefore {
             _isActive = State(initialValue: true)
-            hasLaunchedBefore = true
+            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
         } else {
             _isActive = State(initialValue: false)
         }
     }
 
     var body: some View {
+//        Text("\(storeManager.products.count)")
             TabView {
                 NavigationView {
                     HomeView()

@@ -32,9 +32,9 @@ extension SubscriptionModel {
                }
            }
     public var historyArray: [HistoryEntity] {
-               let set = entity as? Set<HistoryEntity> ?? []
+               let set = historyEntity as? Set<HistoryEntity> ?? []
                return set.sorted {
-                $0.id < $1.id
+                $0.creationDate < $1.creationDate
                }
            }
 

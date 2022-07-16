@@ -1,8 +1,8 @@
 //
 //  HistoryEntity+CoreDataClass.swift
-//  SubShare
+//  
 //
-//  Created by Konrad on 18/02/2022.
+//  Created by Konrad on 03/04/2022.
 //
 //
 

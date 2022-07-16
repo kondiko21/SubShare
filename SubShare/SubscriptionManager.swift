@@ -30,6 +30,7 @@ class SubscriptionManager {
        
         let list = generatePaymentList(for: member)
         return list.count
+//        return 2
     }
     
     func generatePaymentList(for member: FamilyMemberModel) -> [Date] {

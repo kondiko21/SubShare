@@ -8,6 +8,7 @@
 import Foundation
 import NotificationCenter
 import CoreData
+import FirebaseMessaging
 
 final class NotificationManager : NotificationCenter {
     
@@ -32,7 +33,7 @@ final class NotificationManager : NotificationCenter {
         content.body = "You have new payment for \(subscription.name) subscription. Tap to nitify your family about new payment!"
         content.userInfo = ["subscription" : subscriptionManager.addOneDay(to: subscription.paymentDate)]
         
-        let notificationDate = subscriptionManager.addOneDay(to: subscription.paymentDate)
+        let notificationDate = subscriptionManager.addPaymentInterval(for: subscription)
         var dateComponent = DateComponents()
         var request : UNNotificationRequest?
         

@@ -32,58 +32,74 @@ struct PaymentManagerView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Button {
-                    if paymentList.count > 0 {
-                        familymember.lastPaymentDate = manager.addPaymentInterval(for: familymember)
+            VStack(alignment: .leading) {
+                HStack {
+                    Button {
+                        if paymentList.count > 0 {
+                            familymember.lastPaymentDate = manager.addPaymentInterval(for: familymember)
                             paymentList.removeFirst()
                             outstangingPayments = outstangingPayments - 1
+                            let historyEntity = HistoryEntity(context: moc)
+                            historyEntity.operation = "new_payment"
+                            historyEntity.creationDate = Date()
+                            historyEntity.member = familymember
+                            historyEntity.subscription = familymember.subscription
+                            historyEntity.id = UUID()
                             do {
                                 try moc.save()
                             } catch {
                                 print(error)
                             }
-                    }
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10).stroke(Color(systemTheme), lineWidth: 3)
-                        Text("Pay one").foregroundColor(Color(systemTheme)).bold()
-                    }.frame(height: 50)
-                }.buttonStyle(PlainButtonStyle())
-
-                Button {
-                    if paymentList.count > 0 {
-                        familymember.lastPaymentDate = familymember.subscription.paymentDate
+                        }
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10).stroke(Color(systemTheme), lineWidth: 3)
+                            Text("Pay one").foregroundColor(Color(systemTheme)).bold()
+                        }.frame(height: 50)
+                    }.buttonStyle(PlainButtonStyle())
+                    
+                    Button {
+                        if paymentList.count > 0 {
+                            
+                            familymember.lastPaymentDate = familymember.subscription.paymentDate
                             paymentList.removeAll()
                             outstangingPayments = 0
+                            
+                            let historyEntity = HistoryEntity(context: moc)
+                            historyEntity.operation = "new_payment"
+                            historyEntity.creationDate = Date()
+                            historyEntity.member = familymember
+                            historyEntity.subscription = familymember.subscription
+                            historyEntity.id = UUID()
+                            
                             do {
                                 try moc.save()
                             } catch {
                                 print(error)
                             }
+                        }
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10).foregroundColor(Color(systemTheme))
+                            Text("Pay all").foregroundColor(.black).bold()
+                        }.frame(height: 50)
                     }
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10).foregroundColor(Color(systemTheme))
-                        Text("Pay all").foregroundColor(.black).bold()
-                    }.frame(height: 50)
+                    
                 }
-
-            }
-            Text("Missing payments:").font(.title2).bold().offset( y: 10)
-            ScrollView {
-                ForEach(paymentList, id: \.self) { date in
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(Color(systemTheme))
-                        .opacity(0.9)
-                        Text(date).bold().padding()
+                Text("Missing payments:").font(.title2).bold().offset( y: 10)
+                ScrollView {
+                    ForEach(paymentList, id: \.self) { date in
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(Color(systemTheme))
+                                .opacity(0.9)
+                            Text(date).bold().padding()
+                        }
                     }
                 }
-            }
+            
         }.padding()
-            .navigationTitle("Hubert")
+            .navigationBarTitle("Hubert", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
                 presentationMode = false
             }, label: {

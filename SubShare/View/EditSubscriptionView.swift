@@ -157,7 +157,7 @@ struct EditSubscriptionView: View {
             } label: {
                 Text("Edit").foregroundColor(Color(systemTheme)).bold()
             }
-//            .navigationTitle(subscription.name)
+            .navigationTitle(subscription.name)
             .navigationBarItems(trailing: Button(action: {
                deleteWarning = true
             }, label: {
