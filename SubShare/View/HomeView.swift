@@ -116,7 +116,7 @@ struct PersonShortcutView: View {
                             paymentCount -= 1
                             paymentAmount -=  person.value
                             person.lastPaymentDate = manager.addPaymentInterval(for: person)
-                            var historyEntity = HistoryEntity(context: moc)
+                            let historyEntity = HistoryEntity(context: moc)
                             historyEntity.operation = "new_payment"
                             historyEntity.creationDate = Date()
                             historyEntity.member = person

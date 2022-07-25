@@ -34,31 +34,35 @@ class SubscriptionManager {
     }
     
     func generatePaymentList(for member: FamilyMemberModel) -> [Date] {
-        print(member.subscription.name)
-        let everyMonthPayment = member.subscription.everyMonthPayment
-        let paymentDate = member.subscription.paymentDate
-        var lastPaymentDate = member.lastPaymentDate
-        var list : [Date] = []
-        
-        if addPaymentInterval(for: member) < paymentDate {
-            list.append(lastPaymentDate)
-        }
-
-        if everyMonthPayment {
-            while addMonth(to: lastPaymentDate) <= paymentDate {
-                lastPaymentDate = addMonth(to: lastPaymentDate)
+        if !member.isFault {
+            let everyMonthPayment = member.subscription.everyMonthPayment
+            let paymentDate = member.subscription.paymentDate
+            var lastPaymentDate = member.lastPaymentDate
+            var list : [Date] = []
+            
+            if addPaymentInterval(for: member) < paymentDate {
                 list.append(lastPaymentDate)
             }
-        } else {
-            while addThirtyDays(to: lastPaymentDate) <= paymentDate {
-                lastPaymentDate = addThirtyDays(to: lastPaymentDate)
-                list.append(lastPaymentDate)
+            
+            if everyMonthPayment {
+                while addMonth(to: lastPaymentDate) <= paymentDate {
+                    lastPaymentDate = addMonth(to: lastPaymentDate)
+                    list.append(lastPaymentDate)
+                }
+            } else {
+                while addThirtyDays(to: lastPaymentDate) <= paymentDate {
+                    lastPaymentDate = addThirtyDays(to: lastPaymentDate)
+                    list.append(lastPaymentDate)
+                }
+                //        }
+                //        print("List \(member.name),\n paymentDate: \(member.lastPaymentDate)")
+                //        print(list.sorted(by: {$0 < $1}))
             }
+            return list.sorted(by: {$0 < $1})
+            
         }
-        print("List \(member.name),\n paymentDate: \(member.lastPaymentDate)")
-        print(list.sorted(by: {$0 < $1}))
-        return list.sorted(by: {$0 < $1})
-    }
+            return []
+        }
     
     func addPaymentInterval(for member: FamilyMemberModel) -> Date {
         let paymentDate = member.lastPaymentDate

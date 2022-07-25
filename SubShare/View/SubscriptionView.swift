@@ -80,7 +80,7 @@ struct SubscriptionView: View {
     
     struct SingleSubscription: View {
         
-        var subscription : SubscriptionModel
+        @State var subscription : SubscriptionModel
         let subscriptionManager = SubscriptionManager.shared
         var formatter = DateFormatter()
         var nextPaymentDate = ""
@@ -98,7 +98,7 @@ struct SubscriptionView: View {
                         do {
                             try moc.save()
                         } catch {
-                            print(error)
+                            print(error.localizedDescription)
                         }
                     }
                 }
@@ -116,7 +116,7 @@ struct SubscriptionView: View {
                         Text(subscription.name).font(.title).bold()
                         Spacer()
                         NavigationLink {
-                            EditSubscriptionView(subscriptionData: subscription)
+                            EditSubscriptionView(subscriptionData: $subscription)
                         } label: {
                             Image(systemName: "slider.horizontal.3")
                                 .foregroundColor(Color(systemTheme))

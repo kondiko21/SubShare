@@ -15,7 +15,6 @@ struct MainView: View {
     @EnvironmentObject var storeManager : StoreManager
     
     init() {
-        print(hasLaunchedBefore)
         if !hasLaunchedBefore {
             _isActive = State(initialValue: true)
             UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")

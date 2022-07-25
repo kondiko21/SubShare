@@ -37,7 +37,7 @@ final class NotificationManager : NotificationCenter {
         var dateComponent = DateComponents()
         var request : UNNotificationRequest?
         
-        print(subscription.everyMonthPayment)
+//        print(subscription.everyMonthPayment)
         if subscription.everyMonthPayment {
             dateComponent.hour = Calendar.current.component(.hour, from: notificationDate )
             dateComponent.minute = Calendar.current.component(.minute, from: notificationDate )
@@ -79,7 +79,7 @@ final class NotificationManager : NotificationCenter {
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
         let request  = UNNotificationRequest(identifier: "\(object.request.identifier)", content: content, trigger: trigger)
-        print("Next notification request \(request)")
+//        print("Next notification request \(request)")
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     

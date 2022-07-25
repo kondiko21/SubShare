@@ -21,6 +21,8 @@ class SubscriptionViewModel : ObservableObject {
     @Published var familyMembers : [FamilyMemberModel]
     @Published var memberNames : [String] = []
     @Published var memberPrices : [Double] = []
+    @Published var memberPayments : [Date] = []
+    @Published var memberIDs : [UUID] = []
     @Published var familyCount : Int
     @Published var id : UUID
     var subscriptionModel : SubscriptionModel?
@@ -42,6 +44,8 @@ class SubscriptionViewModel : ObservableObject {
         for member in familyMembers {
             memberNames.append(member.name)
             memberPrices.append(member.value)
+            memberPayments.append(member.lastPaymentDate)
+            memberIDs.append(member.id)
         }
     }
     
@@ -101,14 +105,16 @@ class SubscriptionViewModel : ObservableObject {
                 moc.delete(member)
             }
         for member in memberNames {
-            let id = memberNames.firstIndex(of: member)
-            let object = FamilyMemberModel(context: moc)
-            object.name = member
-            object.value = memberPrices[id!]
-            object.order = Int16(id!)
-            object.lastPaymentDate = paymentDate
-            object.id = UUID()
-            object.subscription = model
+            if member != "" {
+                let id = memberNames.firstIndex(of: member)
+                let object = FamilyMemberModel(context: moc)
+                object.name = member
+                object.value = memberPrices[id!]
+                object.order = Int16(id!)
+                object.lastPaymentDate = memberPayments[id!]
+                object.id = memberIDs[id!]
+                object.subscription = model
+            }
         }
         do {
             try moc.save()

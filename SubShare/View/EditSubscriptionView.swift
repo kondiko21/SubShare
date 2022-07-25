@@ -22,17 +22,17 @@ struct EditSubscriptionView: View {
     @State var displayWarning = false
     @State var deleteWarning = false
     @State private var warningString = ""
-    var subscriptionData : SubscriptionModel?
+    @Binding var subscriptionData : SubscriptionModel
     @ObservedObject var subscription : SubscriptionViewModel
     
-    init(subscriptionData: SubscriptionModel) {
+    init(subscriptionData: Binding<SubscriptionModel>) {
         
-        if !subscriptionData.isFault {
-            self.subscription = SubscriptionViewModel(subscription: subscriptionData)
+        if !subscriptionData.wrappedValue.isFault {
+            self.subscription = SubscriptionViewModel(subscription: subscriptionData.wrappedValue)
         } else {
             self.subscription = SubscriptionViewModel()
         }
-        self.subscriptionData = subscriptionData
+        _subscriptionData = subscriptionData
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
         numberFormatter.minimumFractionDigits = 2
@@ -71,9 +71,12 @@ struct EditSubscriptionView: View {
                 DatePicker(selection: $subscription.paymentDate, displayedComponents: .date) {
                     Text("Start date")
                 }
+                .disabled(true)
+
                 Toggle(isOn: $subscription.divideCostEqually) {
                     Text("Divide cost equally")
                 }
+                
                 VStack (alignment: .leading) {
                     Text("Payment renewal")
                     Picker("Strength", selection: $subscription.everyMonthPayment) {
@@ -124,6 +127,7 @@ struct EditSubscriptionView: View {
                             if subscription.familyCount > 0 {
                                 subscription.memberNames[subscription.familyCount] = ""
                                 subscription.memberPrices[subscription.familyCount] = 0
+                                subscription.memberPayments[subscription.familyCount] = Date()
                                 subscription.familyCount -= 1
                             }
                             let newPrice = subscription.price / Double(subscription.familyCount)
@@ -198,7 +202,7 @@ struct EditSubscriptionView: View {
     func removeSubscription() {
         presentationMode.wrappedValue.dismiss()
         DispatchQueue.main.async {
-            moc.delete(subscriptionData!)
+            moc.delete(subscriptionData)
             do {
                 try moc.save()
             } catch {

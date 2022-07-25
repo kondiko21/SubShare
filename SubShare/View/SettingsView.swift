@@ -24,7 +24,7 @@ struct SettingsView: View {
     
     @AppStorage("selectedCurrency") var selectedCurrency : String = "$"
     @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
-    let themeList = ["theme_yellow", "theme_pink"]
+    let themeList = ["theme_yellow", "theme_pink", "theme_green", "theme_blue"]
     var columns = [GridItem(.adaptive(minimum: 50, maximum: 200))]
     
     var body: some View {
