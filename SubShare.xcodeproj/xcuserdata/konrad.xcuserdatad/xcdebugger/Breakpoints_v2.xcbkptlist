@@ -14,8 +14,8 @@
             filePath = "SubShare/ViewModel/SubscriptionViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "save()"
             landmarkType = "7">
          </BreakpointContent>
@@ -224,8 +224,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "23"
             endingLineNumber = "23"
-            landmarkName = "body"
-            landmarkType = "24">
+            landmarkName = "HomeView"
+            landmarkType = "14">
             <Locations>
                <Location
                   uuid = "8E0B8DA7-836A-4297-97EB-0DCF52400321 - 52d068797825b5e8"

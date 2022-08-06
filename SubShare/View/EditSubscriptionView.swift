@@ -22,17 +22,17 @@ struct EditSubscriptionView: View {
     @State var displayWarning = false
     @State var deleteWarning = false
     @State private var warningString = ""
-    @Binding var subscriptionData : SubscriptionModel
+    @State var subscriptionData : SubscriptionModel
     @ObservedObject var subscription : SubscriptionViewModel
     
-    init(subscriptionData: Binding<SubscriptionModel>) {
+    init(subscriptionData: SubscriptionModel) {
         
-        if !subscriptionData.wrappedValue.isFault {
-            self.subscription = SubscriptionViewModel(subscription: subscriptionData.wrappedValue)
+        if !subscriptionData.isFault {
+            self.subscription = SubscriptionViewModel(subscription: subscriptionData)
         } else {
             self.subscription = SubscriptionViewModel()
         }
-        _subscriptionData = subscriptionData
+        _subscriptionData = State(initialValue: subscriptionData)
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
         numberFormatter.minimumFractionDigits = 2
@@ -111,12 +111,15 @@ struct EditSubscriptionView: View {
                             if subscription.familyCount + 1 > subscription.memberNames.count - 1 {
                                 subscription.memberNames.append("")
                                 subscription.memberPrices.append(0)
+                                subscription.memberPayments.append(subscription.paymentDate)
+                                subscription.memberIDs.append(UUID())
                             }
                             subscription.familyCount += 1
-                            let newPrice = subscription.price / Double(subscription.familyCount)
+                            let newPrice = subscription.price / Double(subscription.familyCount+1)
                             if subscription.divideCostEqually {
                                 subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
                             }
+                            print(subscription.familyCount)
                         } label: {
                             Text("Add")
                                 .foregroundColor(Color(systemTheme))
@@ -124,16 +127,18 @@ struct EditSubscriptionView: View {
                         }.buttonStyle(BorderlessButtonStyle())
                         Spacer()
                         Button {
-                            if subscription.familyCount > 0 {
+                            print(subscription.familyCount)
+                            if subscription.familyCount > 1 {
                                 subscription.memberNames[subscription.familyCount] = ""
                                 subscription.memberPrices[subscription.familyCount] = 0
                                 subscription.memberPayments[subscription.familyCount] = Date()
                                 subscription.familyCount -= 1
                             }
-                            let newPrice = subscription.price / Double(subscription.familyCount)
+                            let newPrice = subscription.price / Double(subscription.familyCount+1)
                             if subscription.divideCostEqually {
                                 subscription.memberPrices = subscription.memberPrices.map {_ in newPrice}
                             }
+                            print(subscription.familyCount)
                             
                         } label: {
                             Text("Remove")
@@ -200,7 +205,6 @@ struct EditSubscriptionView: View {
     }
     
     func removeSubscription() {
-        presentationMode.wrappedValue.dismiss()
         DispatchQueue.main.async {
             moc.delete(subscriptionData)
             do {
@@ -209,6 +213,7 @@ struct EditSubscriptionView: View {
                 print(error)
             }
             NotificationManager.shared.removeNotification(id: "\(subscription.id)")
+            presentationMode.wrappedValue.dismiss()
         }
     }
     

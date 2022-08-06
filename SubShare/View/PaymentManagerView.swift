@@ -11,16 +11,16 @@ import CoreData
 struct PaymentManagerView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @Binding var familymember : FamilyMemberModel
+    @State var familymember : FamilyMemberModel
     @Binding var presentationMode : Bool
     @Binding var outstangingPayments : Int
     @State var paymentList : [String] = []
     let manager = SubscriptionManager.shared
     @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
 
-    init(familyMember: Binding<FamilyMemberModel>, outstangingPayments: Binding<Int>, presentationModel : Binding<Bool>) {
+    init(familyMember: FamilyMemberModel, outstangingPayments: Binding<Int>, presentationModel : Binding<Bool>) {
         
-        self._familymember = familyMember
+        self._familymember = State(initialValue: familyMember)
         self._presentationMode = presentationModel
         self._outstangingPayments = outstangingPayments
         let formatter = DateFormatter()
@@ -99,7 +99,7 @@ struct PaymentManagerView: View {
                 }
             
         }.padding()
-            .navigationBarTitle("Hubert", displayMode: .inline)
+            .navigationBarTitle(familymember.name, displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
                 presentationMode = false
             }, label: {

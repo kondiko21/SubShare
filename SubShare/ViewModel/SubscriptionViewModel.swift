@@ -47,6 +47,9 @@ class SubscriptionViewModel : ObservableObject {
             memberPayments.append(member.lastPaymentDate)
             memberIDs.append(member.id)
         }
+        print(memberPrices)
+        print(memberNames)
+        print(familyCount)
     }
     
     init() {
@@ -111,9 +114,10 @@ class SubscriptionViewModel : ObservableObject {
                 object.name = member
                 object.value = memberPrices[id!]
                 object.order = Int16(id!)
-                object.lastPaymentDate = memberPayments[id!]
-                object.id = memberIDs[id!]
+                    object.lastPaymentDate = memberPayments[id!]
+                    object.id = memberIDs[id!]
                 object.subscription = model
+                object.objectWillChange.send()
             }
         }
         do {

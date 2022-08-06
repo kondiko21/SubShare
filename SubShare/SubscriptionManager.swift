@@ -27,36 +27,38 @@ class SubscriptionManager {
     }
     
     func countMissingPayments(for member: FamilyMemberModel) -> Int {
-       
         let list = generatePaymentList(for: member)
+//        print(member.name)
+//        print(list)
         return list.count
 //        return 2
     }
     
     func generatePaymentList(for member: FamilyMemberModel) -> [Date] {
+        print(member)
         if !member.isFault {
             let everyMonthPayment = member.subscription.everyMonthPayment
             let paymentDate = member.subscription.paymentDate
             var lastPaymentDate = member.lastPaymentDate
             var list : [Date] = []
-            
-            if addPaymentInterval(for: member) < paymentDate {
-                list.append(lastPaymentDate)
-            }
-            
+//            print(addPaymentInterval(for: member))
+//            if addPaymentInterval(for: member) <= paymentDate {
+//                list.append(lastPaymentDate)
+//            }
+//            
             if everyMonthPayment {
                 while addMonth(to: lastPaymentDate) <= paymentDate {
                     lastPaymentDate = addMonth(to: lastPaymentDate)
                     list.append(lastPaymentDate)
+                    print("List \(member.name),\n paymentDate: \(member.lastPaymentDate)")
+                    print(list.sorted(by: {$0 < $1}))
                 }
             } else {
                 while addThirtyDays(to: lastPaymentDate) <= paymentDate {
                     lastPaymentDate = addThirtyDays(to: lastPaymentDate)
                     list.append(lastPaymentDate)
                 }
-                //        }
-                //        print("List \(member.name),\n paymentDate: \(member.lastPaymentDate)")
-                //        print(list.sorted(by: {$0 < $1}))
+//                        }
             }
             return list.sorted(by: {$0 < $1})
             

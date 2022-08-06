@@ -30,7 +30,7 @@ final class NotificationManager : NotificationCenter {
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
         content.title = "New subscription payment"
-        content.body = "You have new payment for \(subscription.name) subscription. Tap to nitify your family about new payment!"
+        content.body = "You have new payment for \(subscription.name) subscription. Tap to notify your family about new payment!"
         content.userInfo = ["subscription" : subscriptionManager.addOneDay(to: subscription.paymentDate)]
         
         let notificationDate = subscriptionManager.addPaymentInterval(for: subscription)
@@ -39,8 +39,8 @@ final class NotificationManager : NotificationCenter {
         
 //        print(subscription.everyMonthPayment)
         if subscription.everyMonthPayment {
-            dateComponent.hour = Calendar.current.component(.hour, from: notificationDate )
-            dateComponent.minute = Calendar.current.component(.minute, from: notificationDate )
+            dateComponent.hour = 10
+            dateComponent.minute = 0
             
             dateComponent.day = Calendar.current.component(.day, from: notificationDate )
             
@@ -52,7 +52,7 @@ final class NotificationManager : NotificationCenter {
             
             dateComponent.hour = 10
             dateComponent.minute = 0
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: (24*60*60), repeats: true)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: (30*24*60*60), repeats: true)
             request  = UNNotificationRequest(identifier: "\(subscription.id)", content: content, trigger: trigger)
         }
         UNUserNotificationCenter.current().add(request!, withCompletionHandler: nil)

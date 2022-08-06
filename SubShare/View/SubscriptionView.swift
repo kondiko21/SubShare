@@ -80,7 +80,8 @@ struct SubscriptionView: View {
     
     struct SingleSubscription: View {
         
-        @State var subscription : SubscriptionModel
+        @FetchRequest private var members: FetchedResults<FamilyMemberModel>
+        @ObservedObject var subscription : SubscriptionModel
         let subscriptionManager = SubscriptionManager.shared
         var formatter = DateFormatter()
         var nextPaymentDate = ""
@@ -90,6 +91,7 @@ struct SubscriptionView: View {
         
         init(_ subscription: SubscriptionModel) {
             self.subscription = subscription
+            self._members = FetchRequest(entity: FamilyMemberModel.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \FamilyMemberModel.order, ascending: true)], predicate: NSPredicate(format: "subscription == %@", subscription))
             formatter.dateFormat = "d MMM YYYY"
             if !subscription.isFault {
                 if subscription.paymentDate <= Date() {
@@ -107,6 +109,7 @@ struct SubscriptionView: View {
         }
         
         var body: some View {
+            if !subscription.isFault {
             ZStack {
                 RoundedRectangle(cornerRadius: 6)
                     .foregroundColor(.gray)
@@ -116,7 +119,7 @@ struct SubscriptionView: View {
                         Text(subscription.name).font(.title).bold()
                         Spacer()
                         NavigationLink {
-                            EditSubscriptionView(subscriptionData: $subscription)
+                            EditSubscriptionView(subscriptionData: subscription)
                         } label: {
                             Image(systemName: "slider.horizontal.3")
                                 .foregroundColor(Color(systemTheme))
@@ -135,29 +138,35 @@ struct SubscriptionView: View {
                     Text("Family:").bold()
                     ForEach(subscription.familyMemberArray, id: \.id) { member in
                         if member.order != 0 {
-                            PersonSubscriptionView(member).padding(.bottom, 5)
+                            if !member.isFault {
+                                PersonSubscriptionView(member).padding(.bottom, 5)
+                            }
                         }
                     }
                     Spacer()
                 }.padding()
             }
         }
+        }
     }
     
     
     struct PersonSubscriptionView: View {
         
-        @State var member : FamilyMemberModel
+        @ObservedObject var member : FamilyMemberModel
         let subscriptionManager = SubscriptionManager.shared
         @State var outstandingPaymentAmount : Int
         @State var isPresented : Bool = false
         @AppStorage("appTheme") var systemTheme : String = "theme_yellow"
         @State private var isSharePresented: Bool = false
         @AppStorage("selectedCurrency") var currencyCode : String = "USD"
+        var part1 = NSLocalizedString("Hi! You owe me", comment: "")
+        var part2 = NSLocalizedString("for next month of", comment: "")
+        var part3 = NSLocalizedString("subscription. \nSent with SubShare", comment: "")
         
         
         init(_ member: FamilyMemberModel) {
-            _member = State(initialValue: member)
+            _member = ObservedObject(initialValue: member)
             _outstandingPaymentAmount = State(initialValue: subscriptionManager.countMissingPayments(for: member))
         }
         
@@ -192,11 +201,11 @@ struct SubscriptionView: View {
                 }
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
-                        PaymentManagerView(familyMember: $member, outstangingPayments: $outstandingPaymentAmount, presentationModel: $isPresented)
+                        PaymentManagerView(familyMember: member, outstangingPayments: $outstandingPaymentAmount, presentationModel: $isPresented)
                     }
                 }
                 .sheet(isPresented: $isSharePresented, content: {
-                    ActivityViewController(activityItems: ["Hi! You owe me \(member.value) \(currencyCode) for next month of \(member.subscription.name) subscription. \nSent with SubShare", Image("logo_wide")])
+                    ActivityViewController(activityItems: ["\(part1) \(Double(outstandingPaymentAmount) * member.value) \(currencyCode) \(part2) \(member.subscription.name) \(part3)", Image("logo_wide")])
                 })
                 .onAppear {
                     outstandingPaymentAmount = subscriptionManager.countMissingPayments(for: member)

@@ -161,9 +161,19 @@
 "History" = "Historia";
 
 /* No comment provided by engineer. */
-"Added new payment" = "Dodano płatność";
+"Added new payment %@" = "Dodano płatność %@";
 
 /* No comment provided by engineer. */
 "You own Premium version" = "Aktywna wersja Premium";
 
 "SubShare Pro offers you non limited amount of subscription added. \n Lifetime." = "SubShare Pro oferuje możliwość dodania nielimitowanej ilości subskrypcji. \n Na zawsze.";
+
+"You have new payment for %@ subscription. Tap to notify your family about new payment!" = "Masz nową płatność za subskrypcję %@. Naciśnij i powiadom o tym członków rodziny!";
+
+"New subscription payment" = "Nowa płatność za subskrypcję";
+
+"Hi! You owe me" = "Cześć! Jesteś zaległy(a)";
+
+"for next month of" = "za subskrypcję";
+
+"subscription. \nSent with SubShare" = "\nWysłano przez SubShare";

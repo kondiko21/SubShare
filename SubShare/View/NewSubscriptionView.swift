@@ -40,7 +40,7 @@ struct NewSubscriptionView: View {
                 HStack {
                     Text("Price")
                     Spacer()
-                    TextField("30", value: $subscription.price, formatter: NumberFormatter())
+                    TextField("30", value: $subscription.price, formatter: numberFormatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(width: 60)
@@ -77,7 +77,7 @@ struct NewSubscriptionView: View {
                             } else {
                                 TextField("Name", text: $subscription.memberNames[index]).disabled(true)
                             }
-                            TextField("Amount", value: $subscription.memberPrices[index], formatter: NumberFormatter())
+                            TextField("Amount", value: $subscription.memberPrices[index], formatter: numberFormatter)
                                 .disabled(subscription.divideCostEqually)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .keyboardType(.decimalPad)
